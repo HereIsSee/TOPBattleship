@@ -19,8 +19,15 @@ const Game = () =>{
     const handleAttack = function (){
         const cell = this.parentElement;
         const board = cell.closest('table');
-        console.log(`${cell} element got hit!`);
-        console.log(`Board: ${board.id}`);
+        const cellCords = cell.dataset.cords.split('-').map(Number);
+
+        const player = board.id === "player1" ? player1 : player2;
+
+        player.gameboard.receiveAttack({x_cord: cellCords[0], y_cord: cellCords[1]});
+
+        renderBoards();
+        // console.log(`${cell} element got hit!`);
+        // console.log(`Board: ${board.id}`);
     }
     const renderBoards = function(){
         const board1 = createBoard('player1', player1);
@@ -37,27 +44,34 @@ const Game = () =>{
         board.appendChild(caption);
         board.setAttribute('id', boardId);
         
-        player.gameboard.board.forEach((rowData) =>{
-            const row = createRow(rowData);
+        player.gameboard.board.forEach((rowData, index) =>{
+            const row = createRow(rowData, index);
             board.appendChild(row);
         });
 
         return board;
     }
-    const createRow = function(boardRow){
+    const createRow = function(boardRow, rowIndex){
         const row = document.createElement('tr');
 
-        boardRow.forEach(cellData => {
-            const cell = createCell(cellData.shipId, cellData.hit);
+        boardRow.forEach((cellData, index) => {
+            const cell = createCell(cellData.shipId, cellData.isHit, {x: rowIndex, y: index});
             row.appendChild(cell);
         });
 
         return row;
     }
-    const createCell = function(shipId, hit){
+    const createCell = function(shipId, isHit, {x, y}){
         const cell = document.createElement('td');
-        
-        if(hit){
+        cell.dataset.cords = `${x}-${y}`;
+
+        if(x === 0 && y===0){
+            console.log(`cords 0-0, isHit: ${isHit}`);
+
+            console.log(`cords 0-0, shipId: ${shipId}`);
+        }
+        if(isHit){
+            console.log("got here");
             cell.classList.add('hit');
         }
         if (shipId !== null) {
@@ -66,6 +80,7 @@ const Game = () =>{
         }
 
         const button = document.createElement('button');
+        // button.innerText = "hello";
         cell.appendChild(button);
 
         //adding an event listener so that cells can be hit

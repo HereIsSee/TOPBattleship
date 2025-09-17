@@ -67,7 +67,6 @@ class Gameboard{
         for(let index = 0; index<shipLengths.length; index++){
             while(true){
                 const cords = this.generateShipCoordinates(shipLengths[index]);
-                console.log(cords);
                 const cordsValid = this.#BoardSpacesAvailable(cords[0], cords[1]);
                 if(cordsValid){
                     this.placeShip(shipLengths[index], cords[0], cords[1]);
