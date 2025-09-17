@@ -62,7 +62,7 @@ class Gameboard{
     }
 
     initiateShips(){
-        const shipLengths = [4, 3, 3, 2, 2, 2, 1, 1, 1];
+        const shipLengths = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
         
         for(let index = 0; index<shipLengths.length; index++){
             while(true){
@@ -97,6 +97,10 @@ class Gameboard{
         return [{x_cord_start, y_cord_start},{x_cord_end, y_cord_end}];
     }
 
+    cellContainsShip({x, y}){
+        return this.board[x][y]['shipId'] !== null;
+    }
+
     logBoard(){
         console.log(this.board);
     }
@@ -125,12 +129,12 @@ class Gameboard{
         let y_cord_min = Math.min(y_cord_start, y_cord_end);
         let y_cord_max = Math.max(y_cord_start, y_cord_end);
 
-        for(let i=x_cord_min; i<x_cord_max;i++){
+        for(let i=x_cord_min; i<=x_cord_max;i++){
             if(!this.#SpaceIsAvailable({x_cord: i, y_cord: y_cord_min})){
                 return false;
             }
         }
-        for(let i=y_cord_min; i<y_cord_max;i++){
+        for(let i=y_cord_min; i<=y_cord_max;i++){
             if(!this.#SpaceIsAvailable({x_cord: x_cord_min, y_cord: i})){
                 return false;
             }

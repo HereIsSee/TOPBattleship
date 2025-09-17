@@ -5,34 +5,68 @@ import Player from './Player';
 const Game = () =>{
     const container = document.querySelector('.container');
     const gameBoards = container.querySelector('.gameBoards');
+    const changeTurnButton = container.querySelector('#changeTurn');
+    const turnMessage = container.querySelector('.turnMessage');
+    const otherMessage = container.querySelector('.otherMessage');
 
     const player1 = new Player();
     const player2 = new Player();
     // If true: player1 turn. If false player2 turn
     let playerTurn = true;
+    let allowChangeTurn = false;
 
     const play = function(){
         player1.gameboard.initiateShips();
         player2.gameboard.initiateShips();
+
         renderBoards();
+        toggleTurnMessage();
     }
     const handleAttack = function (){
         const cell = this.parentElement;
-        const board = cell.closest('table');
+        const attackedBoard = cell.closest('table');
         const cellCords = cell.dataset.cords.split('-').map(Number);
 
-        const player = board.id === "player1" ? player1 : player2;
+        // Check if attack coresponds with playerTurn
+        if((playerTurn && attackedBoard.id !== "player2") || (!playerTurn && attackedBoard.id !== "player1")){
+            setOtherMessage(`It's currently player${playerTurn ? "1" : "2"} turn`);
+            return;
+        }
 
-        player.gameboard.receiveAttack({x_cord: cellCords[0], y_cord: cellCords[1]});
+        const attackedPlayer = attackedBoard.id === "player1" ? player1 : player2;
+        const attackSucceeded = attackedPlayer.gameboard.receiveAttack({x_cord: cellCords[0], y_cord: cellCords[1]});
+        const attackedCellContainsShip = attackedPlayer.gameboard.cellContainsShip({x: cellCords[0], y: cellCords[1]});
+
+        if(!attackSucceeded){
+            setOtherMessage('You have already attacked this square!');
+            return;
+        }
+        
+        if(attackedPlayer.gameboard.allShipsSunk()){
+            setOtherMessage(`<span class="winMessage"> Player${playerTurn ? "1" : "2"} has won!!! </span>`);
+            renderBoards();
+            return;
+        }
+        if(!attackedCellContainsShip){
+            playerTurn = !playerTurn;
+            
+        }
 
         renderBoards();
-        // console.log(`${cell} element got hit!`);
-        // console.log(`Board: ${board.id}`);
+        toggleTurnMessage();
+        setOtherMessage('');
     }
     const renderBoards = function(){
         const board1 = createBoard('player1', player1);
         const board2 = createBoard('player2', player2);
 
+        if(playerTurn){
+            board1.classList.add('inactive');
+            board2.classList.add('shipsHidden');
+        } else{
+            board2.classList.add('inactive');
+            board1.classList.add('shipsHidden');
+        }
         gameBoards.innerHTML = '';
         gameBoards.appendChild(board1);
         gameBoards.appendChild(board2);
@@ -65,13 +99,7 @@ const Game = () =>{
         const cell = document.createElement('td');
         cell.dataset.cords = `${x}-${y}`;
 
-        if(x === 0 && y===0){
-            console.log(`cords 0-0, isHit: ${isHit}`);
-
-            console.log(`cords 0-0, shipId: ${shipId}`);
-        }
         if(isHit){
-            console.log("got here");
             cell.classList.add('hit');
         }
         if (shipId !== null) {
@@ -87,6 +115,13 @@ const Game = () =>{
         button.addEventListener('click', handleAttack);
         
         return cell;
+    }
+
+    const setOtherMessage = function(message){
+        otherMessage.innerHTML = message;
+    }
+    const toggleTurnMessage = function(){
+        turnMessage.innerHTML = `<span class="highlight"> Player${playerTurn ? "1" : "2"} </span> make your move!`;
     }
 
     return {play};

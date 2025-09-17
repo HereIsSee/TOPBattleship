@@ -65,54 +65,103 @@ input, textarea, select, button {
 }
 
 /* CSS reset DONE*/
+body{
+  min-width: 510px;
+}
 .container{
-    display: flex;
-    flex-direction: column;
-    gap:10px;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  /* align-items: center; */
 }
 .gameBoards{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  align-self: center;
 }
 table{
-    border-collapse: collapse;
+  border-collapse: collapse;
+}
+table caption{
+  font-size: 32px;
 }
 table td {
-    border: 3px solid black;
-    width: 50px; 
-    height: 50px;
-    padding: 0;
+  border: 3px solid black;
+  width: 50px; 
+  height: 50px;
+  padding: 0;
 
-    position: relative;
+  position: relative;
 }
 td.ship {
   background-color: rgb(53, 53, 134);
 }
+table.shipsHidden td.ship {
+  background-color: rgba(0, 0, 0, 0);
+}
+table.shipsHidden td.ship.hit {
+  background-color: rgb(53, 53, 134);
+}
 td button {
-    width: 100%;
-    height: 100%;
-    font-size: 20px;
-    padding: 0;
-    border: none;
-    cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+td button::before {
+  font-size: 48px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 td.hit button::before {
-    content: "🔥";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
+  content: "•";
+}
+td.hit.ship button:before{
+  content: "○";
 }
 button:hover{
-    background-color: black;
+  background-color: rgba(0, 0, 0, 0.5);
 }
-
-@media (max-width: 770px){
-    .gameBoards{
-        flex-direction: column;
-    }
+.messageContainer{
+  background-color: rgba(51, 97, 97, 0.637);
+  border-radius: 20px;
+  width: 70%;
+  padding: 30px 20px;
+  align-self: center;
+  text-align: center;
+  font-size: 24px;
+}
+.highlight{
+  font-weight: bold;
+  color: rgb(170, 38, 38);
+}
+.winMessage{
+  font-size: 64px;
+  color: gold;
+}
+table.inactive{
+  background-color: rgba(0, 0, 0, 0.486);
+}
+button#changeTurn{
+  padding: 20px 40px;
+  font-size: 48px;
+  background-color: rgba(35, 35, 110, 0.842);
+  border-radius: 20px;
+  align-self: center;
+  color: white;
+}
+button#changeTurn:hover{
+  background-color: rgba(22, 22, 70, 0.842);;
+}
+@media (max-width: 1050px){
+  .gameBoards{
+    flex-direction: column;
+  }
 }
