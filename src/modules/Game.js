@@ -5,7 +5,6 @@ import Player from './Player';
 const Game = () =>{
     const container = document.querySelector('.container');
     const gameBoards = container.querySelector('.gameBoards');
-    const changeTurnButton = container.querySelector('#changeTurn');
     const turnMessage = container.querySelector('.turnMessage');
     const otherMessage = container.querySelector('.otherMessage');
 
@@ -13,7 +12,6 @@ const Game = () =>{
     const player2 = new Player();
     // If true: player1 turn. If false player2 turn
     let playerTurn = true;
-    let allowChangeTurn = false;
 
     const play = function(){
         player1.gameboard.initiateShips();
