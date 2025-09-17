@@ -1,0 +1,96 @@
+/* Simple, safe CSS reset */
+:root {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* Base page */
+html, body, #root {
+  height: 100%;
+}
+
+/* Text / flow */
+body {
+  line-height: 1.25;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+}
+
+/* Lists, tables */
+ol, ul { list-style: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+
+/* Links */
+a { color: inherit; text-decoration: none; }
+
+/* Images & media */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form elements inherit font and remove native chrome styles */
+input, textarea, select, button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Keep keyboard focus visible for accessibility */
+:focus {
+  outline: none; /* don't rely on this alone */
+}
+:focus-visible {
+  outline: 3px solid Highlight;
+  outline-offset: 2px;
+}
+
+/* CSS reset DONE*/
+.container{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    align-items: center;
+}
+.gameBoards{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+table td{
+    border: 3px solid black;
+}
+td.ship {
+  background-color: rgb(53, 53, 134);
+}
+td.hit button::before {
+  content: "🔥 ";
+}
+button{
+    padding: 15px;
+    width: 100%;
+    height: 100%;
+}
+button:hover{
+    background-color: black;
+}

@@ -61,6 +61,43 @@ class Gameboard{
             }, true);
     }
 
+    initiateShips(){
+        const shipLengths = [4, 3, 3, 2, 2, 2, 1, 1, 1];
+        
+        for(let index = 0; index<shipLengths.length; index++){
+            while(true){
+                const cords = this.generateShipCoordinates(shipLengths[index]);
+                console.log(cords);
+                const cordsValid = this.#BoardSpacesAvailable(cords[0], cords[1]);
+                if(cordsValid){
+                    this.placeShip(shipLengths[index], cords[0], cords[1]);
+                    break;
+                }
+            }
+        }
+    }
+    generateShipCoordinates(ship_length){
+        // x: 0 to 9, y: 0 to 9
+        // Pick primary axis, which will not change and then
+        // add ship_length - 1 to secondary axis for end cords
+        const primaryAxisX = Math.random() < 0.5;
+
+        const x_cord_start = Math.floor(Math.random()*10);
+        const y_cord_start = Math.floor(Math.random()*10);
+        
+        let x_cord_end;
+        let y_cord_end;
+        if(primaryAxisX){
+            x_cord_end = x_cord_start;
+            y_cord_end = y_cord_start + (ship_length-1) > 9 ? y_cord_start - (ship_length-1) : y_cord_start + (ship_length-1);
+        } else{
+            y_cord_end = y_cord_start;
+            x_cord_end = x_cord_start + (ship_length-1) > 9 ? x_cord_start - (ship_length-1) : x_cord_start + (ship_length-1); 
+        }
+
+        return [{x_cord_start, y_cord_start},{x_cord_end, y_cord_end}];
+    }
+
     logBoard(){
         console.log(this.board);
     }

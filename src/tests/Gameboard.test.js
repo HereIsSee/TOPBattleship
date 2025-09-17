@@ -57,3 +57,27 @@ test('allShipsSunk, all ships are not sunk', ()=>{
 
     expect(gameboard.allShipsSunk()).toBe(false);
 });
+test('generateShipCoordinates generates coordinates correctly', () => {
+    const gameboard = new Gameboard();
+    const coordinates = gameboard.generateShipCoordinates();
+
+    // Check that it returns an array of length 2
+    expect(Array.isArray(coordinates)).toBe(true);
+    expect(coordinates).toHaveLength(2);
+
+    // Check the first object has x_cord_start and y_cord_start
+    expect(coordinates[0]).toEqual(
+        expect.objectContaining({
+            x_cord_start: expect.any(Number),
+            y_cord_start: expect.any(Number)
+        })
+    );
+
+    // Check the second object has x_cord_end and y_cord_end
+    expect(coordinates[1]).toEqual(
+        expect.objectContaining({
+            x_cord_end: expect.any(Number),
+            y_cord_end: expect.any(Number)
+        })
+    );
+});

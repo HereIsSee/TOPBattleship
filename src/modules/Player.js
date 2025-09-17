@@ -4,5 +4,7 @@ class Player{
     constructor(IsRealPlayer){
         this.gameboard = new Gameboard();
         this.isRealPlayer = IsRealPlayer;
-    }
+    }    
 }
+
+export default Player;
