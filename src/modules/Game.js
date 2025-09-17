@@ -5,6 +5,7 @@ import Player from './Player';
 const Game = () =>{
     const container = document.querySelector('.container');
     const gameBoards = container.querySelector('.gameBoards');
+    const toggleCurrentPlayersBoard = container.querySelector('#toggleYourBoard');
     const turnMessage = container.querySelector('.turnMessage');
     const otherMessage = container.querySelector('.otherMessage');
 
@@ -59,10 +60,10 @@ const Game = () =>{
         const board2 = createBoard('player2', player2);
 
         if(playerTurn){
-            board1.classList.add('inactive');
+            board1.classList.add('inactive', 'shipsHidden');
             board2.classList.add('shipsHidden');
         } else{
-            board2.classList.add('inactive');
+            board2.classList.add('inactive', 'shipsHidden');
             board1.classList.add('shipsHidden');
         }
         gameBoards.innerHTML = '';
@@ -121,6 +122,18 @@ const Game = () =>{
     const toggleTurnMessage = function(){
         turnMessage.innerHTML = `<span class="highlight"> Player${playerTurn ? "1" : "2"} </span> make your move!`;
     }
+    const toggleYourBoard = function(){
+        const currentPlayerBoardId = playerTurn ? 'player1' : 'player2';
+        const currentPlayerBoard = container.querySelector(`#${currentPlayerBoardId}`);
+
+        if(currentPlayerBoard.classList.contains('shipsHidden')){
+            currentPlayerBoard.classList.remove('shipsHidden');
+        } else{
+            currentPlayerBoard.classList.add('shipsHidden');
+        }
+    }
+
+    toggleCurrentPlayersBoard.addEventListener('click', toggleYourBoard);
 
     return {play};
 };

@@ -149,7 +149,7 @@ button:hover{
 table.inactive{
   background-color: rgba(0, 0, 0, 0.486);
 }
-button#changeTurn{
+button#toggleYourBoard{
   padding: 20px 40px;
   font-size: 48px;
   background-color: rgba(35, 35, 110, 0.842);
@@ -157,7 +157,7 @@ button#changeTurn{
   align-self: center;
   color: white;
 }
-button#changeTurn:hover{
+button#toggleYourBoard:hover{
   background-color: rgba(22, 22, 70, 0.842);;
 }
 @media (max-width: 1050px){
